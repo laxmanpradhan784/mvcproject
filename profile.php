@@ -42,7 +42,7 @@ require_once 'config.php';
 </head>
 <body>
 
-<?php include 'navbar.php'; ?>
+<?php include 'anavbar.php'; ?>
 
 <div class="content">
     <h1>Profile Page</h1>
