@@ -56,7 +56,7 @@
             <h4 class="text-white text-center py-4">Admin Panel</h4>
             <a href="#">Dashboard</a>
             <a href="#">Users</a>
-            <a href="#">Posts</a>
+            <a href="slider.php">slider</a>
             <a href="#">Settings</a>
             <a href="#">Logout</a>
         </div>
