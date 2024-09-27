@@ -21,8 +21,8 @@ class Model
     {
         $query = "SELECT * FROM users WHERE email = '$email'";
         $result = mysqli_query($this->connection, $query);
-
         return mysqli_fetch_assoc($result); // Fetch the user data
     }
+    
 }
 ?>

@@ -54,27 +54,6 @@ if (isset($_SESSION['user_id'])) {
 
     <hr class="my-5">
 
-    <h2 class="text-center">Features</h2>
-    <div class="row mt-4">
-        <div class="col-md-4 text-center">
-            <div class="feature-icon">🌟</div>
-            <h4>Feature One</h4>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-        </div>
-        <div class="col-md-4 text-center">
-            <div class="feature-icon">🔒</div>
-            <h4>Feature Two</h4>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-        </div>
-        <div class="col-md-4 text-center">
-            <div class="feature-icon">⚡</div>
-            <h4>Feature Three</h4>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-        </div>
-    </div>
-
-    <hr class="my-5">
-
     <h2 class="text-center">Testimonials</h2>
     <div class="row mt-4">
         <div class="col-md-4">

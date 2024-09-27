@@ -4,6 +4,9 @@ include("model/model.php");
 
 class Controller
 {
+
+    // this line for register_user
+
     function register_user()
     {
         if (isset($_REQUEST['register'])) {
@@ -34,6 +37,9 @@ class Controller
         }
     }
 
+
+    // this line for login_user
+
     function login_user()
     {
         if (isset($_REQUEST['login'])) {
@@ -59,5 +65,11 @@ class Controller
             }
         }
     }
+
+    // this line for adding_delete_update_product
+
+    
+
+
 }
 ?>
