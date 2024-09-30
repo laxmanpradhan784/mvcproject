@@ -5,7 +5,6 @@ if (!isset($_SESSION['admin_id'])) {
     header("Location: login.php");
     exit();
 }
-
 require_once 'config.php';
 ?>
 
@@ -73,10 +72,7 @@ require_once 'config.php';
         <div class="sidebar">
             <h4 class="text-white text-center py-4">Admin Panel</h4>
             <p class="text-white text-center">Welcome, <?php echo $_SESSION['admin_fname']; ?></p>
-            <a href="#">Dashboard</a>
-            <a href="#">Users</a>
             <a href="slider.php">Slider</a>
-            <a href="settings.php">Settings</a>
             <a href="logout.php">Logout</a>
         </div>
 
@@ -103,7 +99,7 @@ require_once 'config.php';
                             <div class="card-body">
                                 <h5 class="card-title">Posts</h5>
                                 <p class="card-text">View and manage posts.</p>
-                                <a href="#" class="btn btn-primary">Go to Posts</a>
+                                <a href="slider.php" class="btn btn-primary">Go to Posts</a>
                             </div>
                         </div>
                     </div>
