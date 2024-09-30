@@ -46,7 +46,7 @@ $error_msg = $ob->register_admin();
                     <div class="card-body">
                         <?php if (!empty($error_msg)): ?>
                             <div class="alert alert-danger text-center">
-                                <?php echo htmlspecialchars($error_msg); ?>
+                                <?php echo ($error_msg); ?>
                             </div>
                         <?php endif; ?>
                         <form action="" method="post">
