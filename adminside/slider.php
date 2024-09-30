@@ -22,10 +22,38 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['update_id'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sliders Page</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+    body {
+        background: linear-gradient(135deg, #ff7e5f, #feb47b); /* Example gradient colors */
+        color: #fff; /* Change text color for better visibility */
+    }
+
+    .slider-image {
+        width: 100px; /* Fixed width for images */
+        height: auto;
+        object-fit: cover; /* Keeps aspect ratio */
+    }
+    
+    .action-buttons {
+        display: flex;
+        gap: 10px; /* Space between buttons */
+    }
+
+    .container {
+        background: rgba(0, 0, 0, 0.5); /* Semi-transparent background for better readability */
+        padding: 20px;
+        border-radius: 10px;
+    }
+
+    h1, h2 {
+        color: #fff; /* Ensures headings are visible against the gradient */
+    }
+</style>
+
 </head>
 <body>
     <div class="container mt-5">
-        <h1 class="mb-4">Sliders</h1>
+        <h1 class="mb-4 text-center text-primary">Sliders</h1>
 
         <?php if ($successMessage): ?>
             <div class="alert alert-success"><?php echo $successMessage; ?></div>
@@ -36,13 +64,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['update_id'])) {
 
         <h2>Add New Slider</h2>
         <form method="post" enctype="multipart/form-data" class="mb-4">
-            <div class="form-group">
-                <label for="image">Image:</label>
-                <input type="file" class="form-control" id="image" name="image" accept="image/*" required>
-            </div>
-            <div class="form-group">
-                <label for="title">Title:</label>
-                <input type="text" class="form-control" id="title" name="title" required>
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label for="image">Image:</label>
+                    <input type="file" class="form-control" id="image" name="image" accept="image/*" required>
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="title">Title:</label>
+                    <input type="text" class="form-control" id="title" name="title" required>
+                </div>
             </div>
             <div class="form-group">
                 <label for="status">Status:</label>
@@ -58,7 +88,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['update_id'])) {
         <table class="table table-bordered">
             <thead>
                 <tr>
-                    <th>ID</th>
+                    <th>Sr No</th>
                     <th>Image</th>
                     <th>Title</th>
                     <th>Status</th>
@@ -66,33 +96,37 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['update_id'])) {
                 </tr>
             </thead>
             <tbody>
-                <?php while ($row = $sliders->fetch_assoc()): ?>
-                    <tr>
-                        <td><?php echo $row['id']; ?></td>
-                        <td><img src="<?php echo $row['image']; ?>" alt="<?php echo $row['title']; ?>" width="100"></td>
-                        <td><?php echo $row['title']; ?></td>
-                        <td><?php echo $row['status']; ?></td>
-                        <td>
-                            <!-- Update Form -->
-                            <form method="post" enctype="multipart/form-data" class="d-inline">
-                                <input type="hidden" name="update_id" value="<?php echo $row['id']; ?>">
-                                <input type="text" name="title" value="<?php echo $row['title']; ?>" required>
-                                <select name="status">
-                                    <option value="active" <?php echo $row['status'] == 'active' ? 'selected' : ''; ?>>Active</option>
-                                    <option value="inactive" <?php echo $row['status'] == 'inactive' ? 'selected' : ''; ?>>Inactive</option>
-                                </select>
-                                <input type="file" name="image" accept="image/*">
-                                <button type="submit" class="btn btn-warning">Update</button>
-                            </form>
+            <?php
+            $srno = 1;
+            while ($row = $sliders->fetch_assoc()): ?>
+                <tr>
+                    <td><?php echo $srno++; ?></td>
+                    <td><img src="<?php echo $row['image']; ?>" alt="<?php echo $row['title']; ?>" class="slider-image"></td>
+                    <td><?php echo $row['title']; ?></td>
+                    <td><?php echo $row['status']; ?></td>
+                    <td>
+                        <!-- Update Form -->
+                        <form method="post" enctype="multipart/form-data" class="d-inline">
+                            <input type="hidden" name="update_id" value="<?php echo $row['id']; ?>">
+                            <input type="text" name="title" value="<?php echo $row['title']; ?>" required class="form-control mb-2" style="display: inline-block; width: auto;">
+                            <select name="status" class="form-control mb-2" style="display: inline-block; width: auto;">
+                                <option value="active" <?php echo $row['status'] == 'active' ? 'selected' : ''; ?>>Active</option>
+                                <option value="inactive" <?php echo $row['status'] == 'inactive' ? 'selected' : ''; ?>>Inactive</option>
+                            </select>
+                            <input type="file" name="image" accept="image/*" class="form-control mb-2" style="display: inline-block; width: auto;">
+                            <div class="action-buttons">
+                                <button type="submit" class="btn btn-warning mt-2">Update</button>
+                            </div>
+                        </form>
 
-                            <!-- Delete Form -->
-                            <form method="get" class="d-inline">
-                                <input type="hidden" name="delete_id" value="<?php echo $row['id']; ?>">
-                                <button type="submit" class="btn btn-danger">Delete</button>
-                            </form>
-                        </td>
-                    </tr>
-                <?php endwhile; ?>
+                        <!-- Delete Form -->
+                        <form method="get" class="d-inline">
+                            <input type="hidden" name="delete_id" value="<?php echo $row['id']; ?>">
+                            <button type="submit" class="btn btn-danger mt-2">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+            <?php endwhile; ?>
             </tbody>
         </table>
     </div>
