@@ -14,7 +14,7 @@ class Model {
     }
 
     public function getSliders() {
-        return $this->conn->query("SELECT * FROM sliders");
+        return $this->conn->query("SELECT * FROM sliders ORDER BY id DESC");
     }
 
     public function updateSlider($id, $image, $title, $status) {
@@ -34,7 +34,7 @@ class Model {
     }
 
     public function getSlider() {
-        $query = "SELECT * FROM sliders WHERE status = 'active'";
+        $query = "SELECT * FROM sliders WHERE status = 'active' ORDER BY id DESC";
         return $this->conn->query($query);
     }
 

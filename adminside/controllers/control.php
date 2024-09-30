@@ -83,27 +83,31 @@ class Control {
         }
     }
 
-    // Method to add a new slider
     private function addSlider() {
         $title = $_POST['title'] ?? ''; // Get title from the form
         $status = $_POST['status'] ?? ''; // Get status from the form
         $image = $_FILES['image'] ?? null; // Get uploaded image
-
+    
         if ($title && $image) { // Check if title and image are provided
             $target_dir = "../uploads/"; // Directory to store images
             $target_file = $target_dir . uniqid() . "_" . basename($image['name']); // Create a unique file name
-
+    
             // Create the uploads directory if it doesn't exist
             if (!is_dir($target_dir)) {
                 mkdir($target_dir, 0777, true);
             }
-
+    
             // Move the uploaded file to the target directory
             if (move_uploaded_file($image['tmp_name'], $target_file)) {
                 $this->model->addSlider($target_file, $title, $status); // Add slider to the database
+                
+                // Redirect to avoid form resubmission
+                header("Location: slider.php"); // Change to your success page
+                exit; // Make sure to call exit after header redirection
             }
         }
     }
+    
 
     // Method to update an existing slider
     private function updateSlider() {

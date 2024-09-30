@@ -77,9 +77,9 @@ if ($sliders === false) {
                 $active = true; // To set the first slider as active
                 while ($row = $sliders->fetch_assoc()): ?>
                     <div class="carousel-item <?php echo $active ? 'active' : ''; ?>">
-                        <img src="<?php echo htmlspecialchars($row['image']); ?>" class="d-block w-100" alt="<?php echo htmlspecialchars($row['title']); ?>">
+                        <img src="<?php echo ($row['image']); ?>" class="d-block w-100" alt="<?php echo ($row['title']); ?>">
                         <div class="carousel-caption d-none d-md-block">
-                            <h5><?php echo htmlspecialchars($row['title']); ?></h5>
+                            <h5><?php echo ($row['title']); ?></h5>
                         </div>
                     </div>
                     <?php $active = false; // After the first item, set active to false ?>
