@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 27, 2024 at 12:06 PM
+-- Generation Time: Sep 30, 2024 at 01:26 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -24,16 +24,52 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `admin`
+--
+
+CREATE TABLE `admin` (
+  `id` int(11) NOT NULL,
+  `full_name` varchar(100) NOT NULL,
+  `email` varchar(100) NOT NULL,
+  `password` varchar(255) NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `admin`
+--
+
+INSERT INTO `admin` (`id`, `full_name`, `email`, `password`, `created_at`) VALUES
+(1, 'adsfghjkl', 'sdfghjk@gmail.com', '$2y$10$fElVcO/IoQ5Rz4D3HOBL7ehG5Cz6YQW6aklAc5wrsVySt5K15ODYi', '2024-09-30 06:38:25'),
+(2, 'viki', 'viki@gmail.com', '$2y$10$4j90HKKdzTvbAIN.hioLFuKOcrw5/4N5Y70dbNrOOdHbZn6A2Z77S', '2024-09-30 06:39:15'),
+(3, 'vasu', 'vasu@gmail.com', '$2y$10$W/HT7awEk2V6IP081AsuEe6qqk1xoA8nCrJ9WGmYT/lGf0YYhaU.q', '2024-09-30 07:29:32');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `sliders`
 --
 
 CREATE TABLE `sliders` (
   `id` int(11) NOT NULL,
-  `title` varchar(255) NOT NULL,
   `image` varchar(255) NOT NULL,
-  `status` enum('active','inactive') DEFAULT 'active',
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+  `status` enum('active','inactive') NOT NULL DEFAULT 'active',
+  `title` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `sliders`
+--
+
+INSERT INTO `sliders` (`id`, `image`, `status`, `title`) VALUES
+(28, '../uploads/66fa5465a411f_4.jpg', 'active', 'xfghjk,'),
+(29, '../uploads/66fa546b8387d_8.jpg', 'active', 'awsdfhgtjkl'),
+(39, '../uploads/66fa701c4d970_14.jpg', 'active', 'huiop'),
+(40, '../uploads/66fa715e87265_11.jpg', 'active', 'sdvfbgnhmj,k.'),
+(41, '../uploads/66fa761f080a6_17.jpg', 'active', 'qwdefrg'),
+(42, '../uploads/66fa762a4035c_10.jpg', 'active', 'sadfgrhjk'),
+(49, '../uploads/66fa774c8bc46_2.jpg', 'active', 'cvbnjmk.l;'),
+(50, '../uploads/66fa77b5abb4d_18.jpg', 'active', 'dfghjkl');
 
 -- --------------------------------------------------------
 
@@ -65,6 +101,13 @@ INSERT INTO `users` (`id`, `full_name`, `email`, `password`, `created_at`) VALUE
 --
 
 --
+-- Indexes for table `admin`
+--
+ALTER TABLE `admin`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `email` (`email`);
+
+--
 -- Indexes for table `sliders`
 --
 ALTER TABLE `sliders`
@@ -82,10 +125,16 @@ ALTER TABLE `users`
 --
 
 --
+-- AUTO_INCREMENT for table `admin`
+--
+ALTER TABLE `admin`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
 -- AUTO_INCREMENT for table `sliders`
 --
 ALTER TABLE `sliders`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=51;
 
 --
 -- AUTO_INCREMENT for table `users`
