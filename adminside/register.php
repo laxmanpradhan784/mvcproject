@@ -1,5 +1,11 @@
 <?php
+session_start(); // Start the session
 
+// Check if the user is logged in
+if (isset($_SESSION['admin_id'])) {
+    header("Location: index.php"); // Redirect to profile if logged in
+    exit();
+}
 // Include necessary files
 include("config.php"); // Include your database connection file
 include("controllers/control.php");

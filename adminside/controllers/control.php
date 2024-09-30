@@ -19,43 +19,43 @@ class Control {
             $email = trim($_REQUEST['email']);
             $password = $_REQUEST['password'];
             $error_msg = "";
-
+    
             if (empty($full_name) || empty($email) || empty($password)) {
                 $error_msg = "All fields are required.";
             } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
                 $error_msg = "Invalid email format.";
             } else {
                 $hashed_password = password_hash($password, PASSWORD_DEFAULT);
-
                 $registration_result = $this->model->register_user($full_name, $email, $hashed_password);
-
+    
                 if ($registration_result) {
-                    header("location:login.php");
+                    header("Location: login.php");
                     exit;
                 } else {
                     $error_msg = "Registration failed!";
                 }
             }
-
+    
             return $error_msg;
         }
     }
-
+    
     function login_admin() {
         if (isset($_REQUEST['login'])) {
             $email = trim($_REQUEST['email']);
             $password = $_REQUEST['password'];
-
             $login_result = $this->model->login_user($email);
-
+    
             if ($login_result) {
                 $hashed_password = $login_result['password'];
-
+    
                 if (password_verify($password, $hashed_password)) {
-                    $_SESSION['user_id'] = $login_result['id'];
-                    $_SESSION['user_fname'] = $login_result['full_name'];
-                    $_SESSION['user_email'] = $login_result['email'];
-                    header("location:index.php");
+                    // Store user information in session variables
+                    $_SESSION['admin_id'] = $login_result['id'];
+                    $_SESSION['admin_fname'] = $login_result['full_name'];
+                    $_SESSION['admin_email'] = $login_result['email'];
+                    header("Location: index.php");
+                    exit;
                 } else {
                     return "Invalid password.";
                 }
@@ -64,6 +64,7 @@ class Control {
             }
         }
     }
+    
 
     // Main method to handle incoming requests
     public function handleRequest() {

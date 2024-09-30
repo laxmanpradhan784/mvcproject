@@ -1,3 +1,14 @@
+<?php
+session_start();
+
+if (!isset($_SESSION['admin_id'])) {
+    header("Location: login.php");
+    exit();
+}
+
+require_once 'config.php';
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -6,9 +17,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Admin Dashboard</title>
-    <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Custom CSS -->
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -60,27 +69,24 @@
 
 <body>
 
-    <!-- Sidebar -->
     <div class="d-flex">
         <div class="sidebar">
             <h4 class="text-white text-center py-4">Admin Panel</h4>
+            <p class="text-white text-center">Welcome, <?php echo $_SESSION['admin_fname']; ?></p>
             <a href="#">Dashboard</a>
             <a href="#">Users</a>
-            <a href="slider.php">slider</a>
-            <a href="login.php">login</a>
-            <a href="#">Logout</a>
+            <a href="slider.php">Slider</a>
+            <a href="settings.php">Settings</a>
+            <a href="logout.php">Logout</a>
         </div>
 
-        <!-- Dashboard Content -->
         <div class="dashboard-content flex-grow-1 p-4">
-            <!-- Navbar -->
             <nav class="navbar navbar-expand-lg">
                 <div class="container-fluid">
                     <a class="navbar-brand" href="#">Admin Dashboard</a>
                 </div>
             </nav>
 
-            <!-- Main Dashboard -->
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-md-4">
@@ -115,12 +121,10 @@
         </div>
     </div>
 
-    <!-- Footer -->
     <footer class="text-center">
         <p>&copy; 2024 Admin Dashboard. All rights reserved.</p>
     </footer>
 
-    <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 
