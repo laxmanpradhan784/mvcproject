@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -13,31 +14,39 @@
             font-family: Arial, sans-serif;
             background-color: #f8f9fa;
         }
+
         .sidebar {
             height: 100vh;
             background-color: #343a40;
         }
+
         .sidebar a {
             color: white;
             display: block;
             padding: 15px;
             text-decoration: none;
         }
+
         .sidebar a:hover {
             background-color: #495057;
         }
+
         .dashboard-content {
             margin-left: 250px;
         }
+
         .navbar {
             background-color: #343a40;
         }
+
         .navbar-brand {
             color: white;
         }
+
         .card {
             margin-top: 20px;
         }
+
         footer {
             background-color: #343a40;
             color: white;
@@ -48,6 +57,7 @@
         }
     </style>
 </head>
+
 <body>
 
     <!-- Sidebar -->
@@ -57,7 +67,7 @@
             <a href="#">Dashboard</a>
             <a href="#">Users</a>
             <a href="slider.php">slider</a>
-            <a href="#">Settings</a>
+            <a href="login.php">login</a>
             <a href="#">Logout</a>
         </div>
 
@@ -113,4 +123,5 @@
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 </body>
+
 </html>

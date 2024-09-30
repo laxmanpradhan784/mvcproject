@@ -1,84 +1,70 @@
+<?php
+include("controllers/control.php");
+
+$controller = new Control($conn);
+$error_msg = "";
+
+if (isset($_POST['login'])) {
+    $error_msg = $controller->login_admin();
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Admin Login</title>
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Custom CSS -->
+    <title>Login Page</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <style>
         body {
-            height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            background-color: #f8f9fa;
-        }
-        .login-container {
-            background-color: #ffffff;
-            padding: 40px;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            width: 100%;
-            max-width: 400px;
-        }
-        .login-container h3 {
-            margin-bottom: 30px;
-            text-align: center;
-        }
-        .form-control {
-            margin-bottom: 20px;
-        }
-        .btn-login {
-            background-color: #343a40;
+            background: linear-gradient(to right, #6a11cb, #2575fc);
             color: white;
+            margin-top: 30px;
         }
-        .btn-login:hover {
-            background-color: #495057;
+        .container h1 {
+            margin-top: 100px;
         }
-        .form-footer {
-            text-align: center;
-            margin-top: 20px;
-        }
-        .form-footer a {
-            color: #495057;
-            text-decoration: none;
-        }
-        .form-footer a:hover {
-            text-decoration: underline;
+        .card {
+            background: rgba(255, 255, 255, 0.9);
+            color: #333;
         }
     </style>
 </head>
 <body>
 
-    <div class="login-container">
-        <h3>Admin Login</h3>
-        <form>
-            <!-- Email Input -->
-            <div class="mb-3">
-                <label for="email" class="form-label">Email</label>
-                <input type="email" class="form-control" id="email" placeholder="Enter your email" required>
+<div class="container mt-5">
+    <h1 class="text-center">Login to Your Account</h1>
+    <div class="row justify-content-center mt-4">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <form action="login.php" method="POST">
+                        <div class="form-group">
+                            <label for="email">Email address</label>
+                            <input type="email" class="form-control" id="email" name="email" placeholder="Enter your email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="password">Password</label>
+                            <input type="password" class="form-control" id="password" name="password" placeholder="Enter your password" required>
+                        </div>
+                        <button type="submit" name="login" class="btn btn-primary btn-block">Login</button>
+                    </form>
+                    <?php if (!empty($error_msg)): ?>
+                        <div class="alert alert-danger mt-3"><?php echo $error_msg; ?></div>
+                    <?php endif; ?>
+                    <div class="text-center mt-3">
+                        <p>Don't have an account? <a href="register.php" class="text-primary">Register now</a></p>
+                    </div>
+                </div>
             </div>
-
-            <!-- Password Input -->
-            <div class="mb-3">
-                <label for="password" class="form-label">Password</label>
-                <input type="password" class="form-control" id="password" placeholder="Enter your password" required>
-            </div>
-
-            <!-- Login Button -->
-            <button type="submit" class="btn btn-login w-100">Login</button>
-            
-            <!-- Form Footer -->
-            <div class="form-footer">
-                <p><a href="#">Forgot Password?</a></p>
-            </div>
-        </form>
+        </div>
     </div>
+</div>
 
-    <!-- Bootstrap JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>

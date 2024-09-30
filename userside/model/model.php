@@ -23,5 +23,8 @@ class Model
         $result = mysqli_query($this->connection, $query);
         return mysqli_fetch_assoc($result); // Fetch the user data
     }
+
+    
+    
 }
 ?>
