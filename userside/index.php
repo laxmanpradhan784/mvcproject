@@ -1,25 +1,17 @@
 <?php
 session_start(); // Start the session
 
-// Enable error reporting
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
-
 // Include configuration and model
 include 'config.php'; // Adjust the path as necessary  
 include '../adminside/models/Model.php'; // Adjust the path as necessary
 
 // Create a Model instance and fetch sliders
 $model = new Model($connection);
-$sliders = $model->getSlider(); // Ensure this function returns a valid result set
+$sliders = $model->getSlider();
 
-// Debugging: Check if $sliders is false or empty
-if ($sliders === false) {
-    echo "Error fetching sliders: " . $connection->error; // Debugging message
-    $hasSliders = false;
-} else {
-    $hasSliders = $sliders->num_rows > 0; // Check if there are any sliders
-}
+// Check for sliders
+$hasSliders = $sliders && $sliders->num_rows > 0;
+
 ?>
 
 <!DOCTYPE html>
