@@ -1,5 +1,10 @@
 <?php
 session_start();
+
+if (!isset($_SESSION['admin_id'])) {
+    header("Location: login.php");
+    exit();
+}
 include 'config.php';
 include 'controllers/Control.php';
 
@@ -40,6 +45,8 @@ $products = $controller->getProducts();
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
 <body class="bg-light">
+
+<?php include 'navbar.php'; ?>
 
 <div class="container mt-5">
     <h1 class="text-center">Product Management</h1>
@@ -94,7 +101,7 @@ $products = $controller->getProducts();
     <table class="table table-striped">
         <thead>
             <tr>
-                <th>ID</th>
+                <th>Sr No</th>
                 <th>Name</th>
                 <th>Description</th>
                 <th>Price</th>
@@ -104,9 +111,11 @@ $products = $controller->getProducts();
             </tr>
         </thead>
         <tbody>
-            <?php foreach ($products as $product): ?>
+            <?php 
+            $srno = 1;
+            foreach ($products as $product): ?>
                 <tr>
-                    <td><?php echo $product['id']; ?></td>
+                    <td><?php echo $srno++; ?></td>
                     <td><?php echo $product['name']; ?></td>
                     <td><?php echo $product['description']; ?></td>
                     <td><?php echo $product['price']; ?></td>

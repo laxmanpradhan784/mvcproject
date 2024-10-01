@@ -28,9 +28,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['update_id'])) {
     <title>Sliders Page</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <style>
-    body {
-        background: linear-gradient(135deg, #ff7e5f, #feb47b); /* Example gradient colors */
-        color: #fff; /* Change text color for better visibility */
+    body { 
+        background-color: gray; /* Example gradient colors *//* Change text color for better visibility */
     }
 
     .slider-image {
@@ -57,6 +56,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['update_id'])) {
 
 </head>
 <body>
+    <?php include 'navbar.php'; ?>
     <div class="container mt-5">
         <h1 class="mb-4 text-center text-primary">Sliders</h1>
 

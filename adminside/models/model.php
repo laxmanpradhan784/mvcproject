@@ -60,7 +60,7 @@ class Model {
     }
 
     public function fetchProducts() {
-        return $this->conn->query("SELECT * FROM products"); // Return the result directly
+        return $this->conn->query("SELECT * FROM products ORDER BY id DESC"); // Return the result directly
     }
 
     public function getProduct($id) {
@@ -69,7 +69,7 @@ class Model {
     }
 
     public function addProduct($name, $description, $price, $image, $status) {
-        $query = "INSERT INTO products (name, description, price, image, status) VALUES ('$name', '$description', $price, '$image', '$status')";
+        $query = "INSERT INTO products (name, description, price, image, status) VALUES ('$name', '$description', $price, '$image', '$status') ";
         return $this->conn->query($query); // Return the result directly
     }
 
@@ -85,7 +85,7 @@ class Model {
     }
 
     public function getProducts() {
-        $result = $this->conn->query("SELECT id, name, description, price, status, image FROM products WHERE status = 'active'");
+        $result = $this->conn->query("SELECT id, name, description, price, status, image FROM products WHERE status = 'active' ORDER BY id DESC");
         return $result ? $result->fetch_all(MYSQLI_ASSOC) : []; // Fetching as an associative array
     }
 }
