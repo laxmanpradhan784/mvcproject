@@ -5,14 +5,17 @@
 include 'config.php'; // Database connection settings
 include 'models/Model.php'; // Model for database interaction
 
-class Control {
+class Control
+{
     private $model;
 
-    public function __construct($connection) {
+    public function __construct($connection)
+    {
         $this->model = new Model($connection);
     }
 
-    function register_admin() {
+    function register_admin()
+    {
         if (isset($_REQUEST['register'])) {
             $full_name = trim($_REQUEST['full_name']);
             $email = trim($_REQUEST['email']);
@@ -39,7 +42,8 @@ class Control {
         }
     }
 
-    function login_admin() {
+    function login_admin()
+    {
         if (isset($_REQUEST['login'])) {
             $email = trim($_REQUEST['email']);
             $password = $_REQUEST['password'];
@@ -64,7 +68,8 @@ class Control {
         }
     }
 
-    public function handleRequest() {
+    public function handleRequest()
+    {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             if (isset($_POST['update_id'])) {
                 $this->updateSlider();
@@ -77,7 +82,8 @@ class Control {
         }
     }
 
-    private function addSlider() {
+    private function addSlider()
+    {
         $title = $_POST['title'] ?? '';
         $status = $_POST['status'] ?? '';
         $image = $_FILES['image'] ?? null;
@@ -104,7 +110,8 @@ class Control {
         return "Title and image are required.";
     }
 
-    private function updateSlider() {
+    private function updateSlider()
+    {
         $id = $_POST['update_id'];
         $title = $_POST['title'] ?? '';
         $status = $_POST['status'] ?? '';
@@ -127,7 +134,8 @@ class Control {
         }
     }
 
-    private function deleteSlider() {
+    private function deleteSlider()
+    {
         $id = $_GET['delete_id'];
         if ($this->model->deleteSlider($id)) {
             return "Slider deleted successfully."; // Return a message instead of redirecting
@@ -135,26 +143,30 @@ class Control {
         return "Failed to delete slider.";
     }
 
-    public function getSliders() {
+    public function getSliders()
+    {
         return $this->model->getSliders();
     }
 
-    public function getProducts() {
+    public function getProducts()
+    {
         return $this->model->fetchProducts();
     }
 
-    public function getProductById($id) {
+    public function getProductById($id)
+    {
         return $this->model->getProduct($id);
     }
 
-    public function addProduct() {
+    public function addProduct()
+    {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $name = $_POST['name'] ?? '';
             $description = $_POST['description'] ?? '';
             $price = $_POST['price'] ?? 0;
             $status = $_POST['status'] ?? '';
             $image = $_FILES['image'] ?? null;
-    
+
             // Handle image upload
             $uploadedImage = $this->handleImageUpload($image);
             if ($uploadedImage !== false) {
@@ -171,9 +183,10 @@ class Control {
             exit();
         }
     }
-    
 
-    public function updateProduct() {
+
+    public function updateProduct()
+    {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $id = $_POST['edit_id'];
             $name = $_POST['name'] ?? '';
@@ -191,14 +204,16 @@ class Control {
         }
     }
 
-    public function deleteProduct($id) {
+    public function deleteProduct($id)
+    {
         if ($this->model->deleteProduct($id)) {
             return "Product deleted successfully.";
         }
         return "Error deleting product.";
     }
 
-    public function editProduct($id) {
+    public function editProduct($id)
+    {
         $product = $this->model->getProduct($id);
         if ($product) {
             return $product;
@@ -206,7 +221,8 @@ class Control {
         return "Product not found.";
     }
 
-    private function handleImageUpload($image) {
+    private function handleImageUpload($image)
+    {
         if ($image && $image['error'] === UPLOAD_ERR_OK) {
             $uploadDir = 'uploads/';
             if (!is_dir($uploadDir)) {
