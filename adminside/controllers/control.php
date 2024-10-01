@@ -154,17 +154,24 @@ class Control {
             $price = $_POST['price'] ?? 0;
             $status = $_POST['status'] ?? '';
             $image = $_FILES['image'] ?? null;
-
+    
             // Handle image upload
             $uploadedImage = $this->handleImageUpload($image);
             if ($uploadedImage !== false) {
                 if ($this->model->addProduct($name, $description, $price, $uploadedImage, $status)) {
-                    return "Product added successfully.";
+                    // Set a success message in session
+                    $_SESSION['success_message'] = "Product added successfully.";
+                    header("Location: product.php"); // Redirect to the product page
+                    exit();
                 }
             }
-            return "Error adding product.";
+            // Set an error message in session
+            $_SESSION['error_message'] = "Error adding product.";
+            header("Location: product.php"); // Redirect to the product page
+            exit();
         }
     }
+    
 
     public function updateProduct() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {

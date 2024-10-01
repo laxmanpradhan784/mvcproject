@@ -74,10 +74,16 @@ class Model {
     }
 
     public function updateProduct($id, $name, $description, $price, $image = null, $status) {
-        $query = "UPDATE products SET name = '$name', description = '$description', price = $price, status = '$status'" .
-                 ($image ? ", image = '$image'" : "") . " WHERE id = $id";
-        return $this->conn->query($query); // Return the result directly
+        $query = "UPDATE products SET name = '" . $this->conn->real_escape_string($name) . "', 
+                  description = '" . $this->conn->real_escape_string($description) . "', 
+                  price = " . (float)$price . ", 
+                  status = '" . $this->conn->real_escape_string($status) . "'" . 
+                  ($image ? ", image = '" . $this->conn->real_escape_string($image) . "'" : "") . 
+                  " WHERE id = " . (int)$id;
+    
+        return $this->conn->query($query) ? "Product updated successfully." : "Error: " . $this->conn->error;
     }
+    
 
     public function deleteProduct($id) {
         $query = "DELETE FROM products WHERE id = $id";
