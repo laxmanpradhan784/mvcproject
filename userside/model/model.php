@@ -24,6 +24,12 @@ class Model
         return mysqli_fetch_assoc($result); // Fetch the user data
     }
 
+    public function addContact($name, $email, $subject, $message) {
+        $query = "INSERT INTO contacts (name, email, subject, message) VALUES ('$name', '$email', '$subject', '$message')";
+        return $this->connection->query($query);
+    }
+    
+
     
     
 }

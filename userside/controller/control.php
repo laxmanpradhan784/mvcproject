@@ -59,5 +59,45 @@ class Controller
             }
         }
     }
+
+    public function addContact()
+{
+    // Initialize variables
+    $name = $email = $subject = $message = '';
+    $error = '';
+    $success = '';
+
+    // Check if the request method is POST
+    if ($_SERVER["REQUEST_METHOD"] == "POST") {
+        // Trim and assign input values
+        $name = trim($_POST['name'] ?? '');
+        $email = trim($_POST['email'] ?? '');
+        $subject = trim($_POST['subject'] ?? '');
+        $message = trim($_POST['message'] ?? '');
+
+        // Create a new Model instance
+        $Object = new Model();
+
+        // Validate inputs
+        if (empty($name) || empty($email) || empty($subject) || empty($message)) {
+            $error = 'Please fill in all fields.';
+        } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            $error = 'Please enter a valid email address.';
+        } else {
+            // Attempt to save contact using the newly created model instance
+            if ($Object->addContact($name, $email, $subject, $message)) {
+                // Redirect to a success page
+                header("Location: contact.php?message=" . urlencode("Your message has been sent successfully!"));
+                exit();
+            } else {
+                $error = 'There was an error saving your message. Please try again.';
+            }
+        }
+    }
+
+    // Return the error and success messages (if any)
+    return ['error' => $error, 'success' => $success];
+}
+
 }
 ?>
