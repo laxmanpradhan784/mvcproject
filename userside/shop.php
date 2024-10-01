@@ -39,7 +39,7 @@ $products = $model->getProducts();
                                 <div class="card-body">
                                     <h5 class="card-title"><?php echo $product['name']; ?></h5>
                                     <p class="card-text"><?php echo $product['description']; ?></p>
-                                    <p class="card-text"><strong>Price: $<?php echo number_format($product['price'], 2); ?></strong></p>
+                                    <p class="card-text"><strong>Price: ₹<?php echo number_format($product['price'], 2); ?></strong></p>
                                     <a href="#" class="btn btn-primary">Add to Cart</a>
                                 </div>
                             </div>
