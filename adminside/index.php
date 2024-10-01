@@ -106,9 +106,9 @@ require_once 'config.php';
                     <div class="col-md-4">
                         <div class="card">
                             <div class="card-body">
-                                <h5 class="card-title">Settings</h5>
-                                <p class="card-text">Admin settings and configuration.</p>
-                                <a href="#" class="btn btn-primary">Go to Settings</a>
+                                <h5 class="card-title">Product Add</h5>
+                                <p class="card-text">Admin settings and Product.</p>
+                                <a href="product.php" class="btn btn-primary">Go to Product</a>
                             </div>
                         </div>
                     </div>

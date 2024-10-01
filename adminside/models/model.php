@@ -8,10 +8,22 @@ class Model {
         $this->conn = $connection;
     }
 
+     // Login user method (SELECT query)
+     public function login_user($email) {
+        $query = "SELECT * FROM admin WHERE email = '$email'";
+        $result = $this->conn->query($query);
+        return $result->fetch_assoc(); // Fetch and return user data
+    }
+
+    // Register user method (INSERT query)
+    public function register_user($full_name, $email, $hashed_password) {
+        $query = "INSERT INTO admin (full_name, email, password) VALUES ('$full_name', '$email', '$hashed_password')";
+        return $this->conn->query($query); // Returns true on success
+    }
+    
     public function addSlider($image, $title, $status) {
-        $stmt = $this->conn->prepare("INSERT INTO sliders (image, title, status) VALUES (?, ?, ?)");
-        $stmt->bind_param("sss", $image, $title, $status);
-        return $stmt->execute(); // Return the result directly
+        $query = "INSERT INTO sliders (image, title, status) VALUES ('$image', '$title', '$status')";
+        return $this->conn->query($query); // Return the result directly
     }
 
     public function getSliders() {
@@ -19,22 +31,17 @@ class Model {
     }
 
     public function updateSlider($id, $image, $title, $status) {
-        $stmt = $this->conn->prepare("UPDATE sliders SET image = ?, title = ?, status = ? WHERE id = ?");
-        $stmt->bind_param("sssi", $image, $title, $status, $id);
-        return $stmt->execute(); // Return the result directly
+        $query = "UPDATE sliders SET image = '$image', title = '$title', status = '$status' WHERE id = $id";
+        return $this->conn->query($query); // Return the result directly
     }
 
     public function deleteSlider($id) {
-        $stmt = $this->conn->prepare("DELETE FROM sliders WHERE id = ?");
-        $stmt->bind_param("i", $id);
-        return $stmt->execute(); // Return the result directly
+        $query = "DELETE FROM sliders WHERE id = $id";
+        return $this->conn->query($query); // Return the result directly
     }
 
     public function getSliderImage($id) {
-        $stmt = $this->conn->prepare("SELECT image FROM sliders WHERE id = ?");
-        $stmt->bind_param("i", $id);
-        $stmt->execute();
-        $result = $stmt->get_result();
+        $result = $this->conn->query("SELECT image FROM sliders WHERE id = $id");
         return $result ? $result->fetch_assoc()['image'] : null; // Return the image or null
     }
 
@@ -43,67 +50,43 @@ class Model {
     }
 
     public function registerUser($full_name, $email, $hashed_password) {
-        $stmt = $this->conn->prepare("INSERT INTO admin (full_name, email, password) VALUES (?, ?, ?)");
-        $stmt->bind_param("sss", $full_name, $email, $hashed_password);
-        return $stmt->execute(); // Return the result directly
+        $query = "INSERT INTO admin (full_name, email, password) VALUES ('$full_name', '$email', '$hashed_password')";
+        return $this->conn->query($query); // Return the result directly
     }
 
     public function loginUser($email) {
-        $stmt = $this->conn->prepare("SELECT * FROM admin WHERE email = ?");
-        $stmt->bind_param("s", $email);
-        $stmt->execute();
-        $result = $stmt->get_result();
+        $result = $this->conn->query("SELECT * FROM admin WHERE email = '$email'");
         return $result ? $result->fetch_assoc() : null; // Return user data or null
     }
 
-    // Fetch all products
     public function fetchProducts() {
-        $stmt = $this->conn->prepare("SELECT * FROM products");
-        $stmt->execute();
-        $result = $stmt->get_result();
-        return $result ? $result->fetch_all(MYSQLI_ASSOC) : []; // Return array of products or empty array
+        return $this->conn->query("SELECT * FROM products"); // Return the result directly
     }
 
-    // Fetch a single product by ID
     public function getProduct($id) {
-        $stmt = $this->conn->prepare("SELECT * FROM products WHERE id = ?");
-        $stmt->bind_param("i", $id);
-        $stmt->execute();
-        $result = $stmt->get_result();
+        $result = $this->conn->query("SELECT * FROM products WHERE id = $id");
         return $result ? $result->fetch_assoc() : null; // Return product data or null
     }
 
-    // Add a new product
     public function addProduct($name, $description, $price, $image, $status) {
-        $stmt = $this->conn->prepare("INSERT INTO products (name, description, price, image, status) VALUES (?, ?, ?, ?, ?)");
-        $stmt->bind_param("ssdss", $name, $description, $price, $image, $status);
-        return $stmt->execute(); // Return the result directly
+        $query = "INSERT INTO products (name, description, price, image, status) VALUES ('$name', '$description', $price, '$image', '$status')";
+        return $this->conn->query($query); // Return the result directly
     }
 
-    // Update an existing product
     public function updateProduct($id, $name, $description, $price, $image = null, $status) {
-        $query = "UPDATE products SET name = ?, description = ?, price = ?, status = ?" . ($image ? ", image = ?" : "") . " WHERE id = ?";
-        $stmt = $this->conn->prepare($query);
-        
-        if ($image) {
-            $stmt->bind_param("ssdssi", $name, $description, $price, $status, $image, $id);
-        } else {
-            $stmt->bind_param("ssdsi", $name, $description, $price, $status, $id);
-        }
-        
-        return $stmt->execute(); // Return the result directly
+        $query = "UPDATE products SET name = '$name', description = '$description', price = $price, status = '$status'" .
+                 ($image ? ", image = '$image'" : "") . " WHERE id = $id";
+        return $this->conn->query($query); // Return the result directly
     }
 
-    // Delete a product
     public function deleteProduct($id) {
-        $stmt = $this->conn->prepare("DELETE FROM products WHERE id = ?");
-        $stmt->bind_param("i", $id);
-        return $stmt->execute(); // Return the result directly
+        $query = "DELETE FROM products WHERE id = $id";
+        return $this->conn->query($query); // Return the result directly
     }
+
     public function getProducts() {
-        $result = mysqli_query($this->conn, "SELECT id, name, description, price, status, image FROM products WHERE status = 'active'");
-        return mysqli_fetch_all($result, MYSQLI_ASSOC); // Fetching as an associative array
+        $result = $this->conn->query("SELECT id, name, description, price, status, image FROM products WHERE status = 'active'");
+        return $result ? $result->fetch_all(MYSQLI_ASSOC) : []; // Fetching as an associative array
     }
-    
 }
 ?>

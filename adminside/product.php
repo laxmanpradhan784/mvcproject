@@ -113,7 +113,7 @@ $products = $controller->getProducts();
                     <td><?php echo $product['status']; ?></td>
                     <td><img src="uploads/<?php echo $product['image']; ?>" alt="<?php echo $product['name']; ?>" style="width: 100px;"></td>
                     <td>
-                        <button class="btn btn-warning btn-sm" onclick="openEditModal(<?php echo htmlspecialchars(json_encode($product)); ?>)">Edit</button>
+                        <button class="btn btn-warning btn-sm" onclick="openEditModal(<?php echo (json_encode($product)); ?>)">Edit</button>
                         <a href="?delete_id=<?php echo $product['id']; ?>" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure?');">Delete</a>
                     </td>
                 </tr>
