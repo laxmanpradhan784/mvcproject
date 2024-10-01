@@ -8,8 +8,7 @@ include 'models/Model.php'; // Model for database interaction
 class Control {
     private $model;
 
-    // Constructor to initialize the model with a database connection
-    public function __construct($connection) { // Fixing the constructor
+    public function __construct($connection) {
         $this->model = new Model($connection);
     }
 
@@ -19,7 +18,7 @@ class Control {
             $email = trim($_REQUEST['email']);
             $password = $_REQUEST['password'];
             $error_msg = "";
-    
+
             if (empty($full_name) || empty($email) || empty($password)) {
                 $error_msg = "All fields are required.";
             } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
@@ -27,7 +26,7 @@ class Control {
             } else {
                 $hashed_password = password_hash($password, PASSWORD_DEFAULT);
                 $registration_result = $this->model->register_user($full_name, $email, $hashed_password);
-    
+
                 if ($registration_result) {
                     header("Location: login.php");
                     exit;
@@ -35,20 +34,20 @@ class Control {
                     $error_msg = "Registration failed!";
                 }
             }
-    
+
             return $error_msg;
         }
     }
-    
+
     function login_admin() {
         if (isset($_REQUEST['login'])) {
             $email = trim($_REQUEST['email']);
             $password = $_REQUEST['password'];
             $login_result = $this->model->login_user($email);
-    
+
             if ($login_result) {
                 $hashed_password = $login_result['password'];
-    
+
                 if (password_verify($password, $hashed_password)) {
                     // Store user information in session variables
                     $_SESSION['admin_id'] = $login_result['id'];
@@ -64,82 +63,153 @@ class Control {
             }
         }
     }
-    
 
-    // Main method to handle incoming requests
     public function handleRequest() {
-        // Check if the request is a POST
-        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            // If there's an update_id, update the slider; otherwise, add a new one
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             if (isset($_POST['update_id'])) {
                 $this->updateSlider();
             } else {
                 $this->addSlider();
             }
-        }
-        // Check if it's a GET request to delete a slider
-        elseif ($_SERVER['REQUEST_METHOD'] == 'GET' && isset($_GET['delete_id'])) {
-            $this->deleteSlider();
+        } elseif ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['delete_id'])) {
+            $message = $this->deleteSlider();
+            return $message; // Return message instead of redirecting
         }
     }
 
     private function addSlider() {
-        $title = $_POST['title'] ?? ''; // Get title from the form
-        $status = $_POST['status'] ?? ''; // Get status from the form
-        $image = $_FILES['image'] ?? null; // Get uploaded image
-    
-        if ($title && $image) { // Check if title and image are provided
-            $target_dir = "../uploads/"; // Directory to store images
-            $target_file = $target_dir . uniqid() . "_" . basename($image['name']); // Create a unique file name
-    
-            // Create the uploads directory if it doesn't exist
+        $title = $_POST['title'] ?? '';
+        $status = $_POST['status'] ?? '';
+        $image = $_FILES['image'] ?? null;
+
+        if ($title && $image && $image['error'] === UPLOAD_ERR_OK) {
+            $target_dir = "../uploads/";
+            $target_file = $target_dir . uniqid() . "_" . basename($image['name']);
+
             if (!is_dir($target_dir)) {
                 mkdir($target_dir, 0777, true);
             }
-    
-            // Move the uploaded file to the target directory
+
             if (move_uploaded_file($image['tmp_name'], $target_file)) {
-                $this->model->addSlider($target_file, $title, $status); // Add slider to the database
-                
-                // Redirect to avoid form resubmission
-                header("Location: slider.php"); // Change to your success page
-                exit; // Make sure to call exit after header redirection
+                if ($this->model->addSlider($target_file, $title, $status)) {
+                    header("Location: slider.php");
+                    exit;
+                } else {
+                    return "Failed to add slider.";
+                }
+            } else {
+                return "Failed to upload image.";
             }
         }
+        return "Title and image are required.";
     }
-    
 
-    // Method to update an existing slider
     private function updateSlider() {
-        $id = $_POST['update_id']; // Get the slider ID
-        $title = $_POST['title']; // Get the new title
-        $status = $_POST['status']; // Get the new status
-        $image = $_FILES['image'] ?? null; // Get the uploaded image
+        $id = $_POST['update_id'];
+        $title = $_POST['title'] ?? '';
+        $status = $_POST['status'] ?? '';
+        $image = $_FILES['image'] ?? null;
 
-        // Get the current image from the database
         $currentImage = $this->model->getSliderImage($id);
-        $target_file = $currentImage; // Default to the current image
+        $target_file = $currentImage;
 
-        // If a new image is uploaded, handle the upload
         if ($image && $image['error'] === UPLOAD_ERR_OK) {
             $target_dir = "../uploads/";
             $target_file = $target_dir . uniqid() . "_" . basename($image['name']);
-            move_uploaded_file($image['tmp_name'], $target_file); // Move the new image
+            move_uploaded_file($image['tmp_name'], $target_file);
         }
 
-        // Update the slider in the database
-        $this->model->updateSlider($id, $target_file, $title, $status);
+        if ($this->model->updateSlider($id, $target_file, $title, $status)) {
+            header("Location: slider.php");
+            exit;
+        } else {
+            return "Failed to update slider.";
+        }
     }
 
-    // Method to delete a slider
     private function deleteSlider() {
-        $id = $_GET['delete_id']; // Get the ID of the slider to delete
-        $this->model->deleteSlider($id); // Call the model to delete the slider
+        $id = $_GET['delete_id'];
+        if ($this->model->deleteSlider($id)) {
+            return "Slider deleted successfully."; // Return a message instead of redirecting
+        }
+        return "Failed to delete slider.";
     }
 
-    // Method to get all sliders
     public function getSliders() {
-        return $this->model->getSliders(); // Retrieve all sliders from the database
+        return $this->model->getSliders();
+    }
+
+    public function getProducts() {
+        return $this->model->fetchProducts();
+    }
+
+    public function getProductById($id) {
+        return $this->model->getProduct($id);
+    }
+
+    public function addProduct() {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $name = $_POST['name'] ?? '';
+            $description = $_POST['description'] ?? '';
+            $price = $_POST['price'] ?? 0;
+            $status = $_POST['status'] ?? '';
+            $image = $_FILES['image'] ?? null;
+
+            // Handle image upload
+            $uploadedImage = $this->handleImageUpload($image);
+            if ($uploadedImage !== false) {
+                if ($this->model->addProduct($name, $description, $price, $uploadedImage, $status)) {
+                    return "Product added successfully.";
+                }
+            }
+            return "Error adding product.";
+        }
+    }
+
+    public function updateProduct() {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $id = $_POST['edit_id'];
+            $name = $_POST['name'] ?? '';
+            $description = $_POST['description'] ?? '';
+            $price = $_POST['price'] ?? 0;
+            $status = $_POST['status'] ?? '';
+            $image = $_FILES['image'] ?? null;
+
+            // Handle image upload
+            $uploadedImage = $this->handleImageUpload($image);
+            if ($this->model->updateProduct($id, $name, $description, $price, $uploadedImage, $status)) {
+                return "Product updated successfully.";
+            }
+            return "Error updating product.";
+        }
+    }
+
+    public function deleteProduct($id) {
+        if ($this->model->deleteProduct($id)) {
+            return "Product deleted successfully.";
+        }
+        return "Error deleting product.";
+    }
+
+    public function editProduct($id) {
+        $product = $this->model->getProduct($id);
+        if ($product) {
+            return $product;
+        }
+        return "Product not found.";
+    }
+
+    private function handleImageUpload($image) {
+        if ($image && $image['error'] === UPLOAD_ERR_OK) {
+            $uploadDir = 'uploads/';
+            if (!is_dir($uploadDir)) {
+                mkdir($uploadDir, 0777, true);
+            }
+            $uploadedImageName = basename($image['name']);
+            move_uploaded_file($image['tmp_name'], $uploadDir . $uploadedImageName);
+            return $uploadedImageName;
+        }
+        return false; // Indicates no upload or an error
     }
 }
 
