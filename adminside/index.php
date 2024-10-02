@@ -88,18 +88,18 @@ require_once 'config.php';
                     <div class="col-md-4">
                         <div class="card">
                             <div class="card-body">
-                                <h5 class="card-title">Users</h5>
-                                <p class="card-text">Manage all registered users.</p>
-                                <a href="#" class="btn btn-primary">Go to Users</a>
+                                <h5 class="card-title">Contact</h5>
+                                <p class="card-text">Manage all users Contact.</p>
+                                <a href="contact.php" class="btn btn-primary">Go to Contact</a>
                             </div>
                         </div>
                     </div>
                     <div class="col-md-4">
                         <div class="card">
                             <div class="card-body">
-                                <h5 class="card-title">Posts</h5>
-                                <p class="card-text">View and manage posts.</p>
-                                <a href="slider.php" class="btn btn-primary">Go to Posts</a>
+                                <h5 class="card-title">Slider</h5>
+                                <p class="card-text">View and manage photos.</p>
+                                <a href="slider.php" class="btn btn-primary">Go to Slider</a>
                             </div>
                         </div>
                     </div>

@@ -42,6 +42,8 @@ $products = $controller->getProducts();
 </head>
 <body class="bg-light">
 
+<?php include 'navbar.php'; ?>
+
 <div class="container mt-5">
     <h1 class="text-center">Product Management</h1>
 
@@ -115,9 +117,7 @@ $products = $controller->getProducts();
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="editProductModalLabel">Edit Product</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span>&times;</span>
-                </button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <form id="editProductForm" action="" method="POST" enctype="multipart/form-data">
@@ -148,7 +148,6 @@ $products = $controller->getProducts();
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                 <button type="button" class="btn btn-primary" onclick="submitEditForm()">Update Product</button>
             </div>
         </div>
@@ -169,6 +168,8 @@ $products = $controller->getProducts();
         $('#editProductForm').submit();
     }
 </script>
+
+
 
 </body>
 </html>

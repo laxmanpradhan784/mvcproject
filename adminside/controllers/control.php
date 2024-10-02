@@ -112,6 +112,7 @@ class Control
 
     private function updateSlider()
     {
+
         $id = $_POST['update_id'];
         $title = $_POST['title'] ?? '';
         $status = $_POST['status'] ?? '';
@@ -239,4 +240,3 @@ class Control
 // Instantiate the controller and handle the request
 $controller = new Control($conn);
 $controller->handleRequest();
-?>

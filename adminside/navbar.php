@@ -42,6 +42,9 @@
                     <li class="nav-item">
                         <a class="nav-link" href="product.php">Products</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="contact.php">contact</a>
+                    </li>
                 </ul>
                 <span class="navbar-text">
                     Welcome, <?php echo $_SESSION['admin_fname']; ?>

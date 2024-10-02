@@ -113,4 +113,3 @@ class Model
         return $result ? $result->fetch_all(MYSQLI_ASSOC) : []; // Fetching as an associative array
     }
 }
-?>

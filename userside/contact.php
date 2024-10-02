@@ -1,6 +1,7 @@
 <?php
 
 include("controller/control.php");
+ include 'navbar.php'; 
 
 $controller = new Controller();
 $messageResult = []; // Array to hold success and error messages
@@ -9,6 +10,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $messageResult = $controller->addContact();
 }
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -18,22 +20,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <style>
         body {
-            background-color: #f8f9fa;
-        }
-        .header-image {
-            background-image: url('https://via.placeholder.com/1200x300'); /* Replace with your image URL */
-            background-size: cover;
-            height: 300px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+            background-color: gray;
         }
         .container {
-            margin-top: -150px; /* Pull the form up over the image */
             z-index: 2;
             position: relative;
+        }
+        .header{
+            margin-top: 100px;
         }
         .form-control, .btn {
             border-radius: 0.5rem;
@@ -45,11 +39,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         .btn-primary:hover {
             background-color: #0056b3;
         }
+        .header {
+            margin-bottom: 20px; /* Added spacing below the header */
+        }
     </style>
 </head>
 <body>
-
-<div class="header-image">
+<div class="header text-center">
     <h1>Contact Us</h1>
 </div>
 
